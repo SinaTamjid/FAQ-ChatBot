@@ -26,5 +26,4 @@ A sleek, desktop-based FAQ chatbot built with Python and PyQt5. Designed to prov
 
 ```bash
 git clone https://github.com/SinaTamjid/faq-chatbot-ui.git
-cd faq-chatbot-ui
 python main.py
