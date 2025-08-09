@@ -1,17 +1,21 @@
 from PyQt5.QtWidgets import (
-    QApplication, QLabel, QPushButton, QCheckBox, QMainWindow, QMessageBox,
-    QMenu, QAction, QHBoxLayout, QVBoxLayout, QFormLayout,QWidget,QLineEdit,QSizePolicy,
+    QApplication, QLabel, QPushButton, QMainWindow, QMessageBox,
+    QAction, QHBoxLayout, QVBoxLayout,QWidget,QSizePolicy,
     QSpacerItem,QTextEdit
 )
 from PyQt5.QtGui import QTextOption,QIcon,QFont
 from PyQt5.QtCore import Qt
 import sys
+import difflib
+from Model.main import load_FAQ,normalize
 
 send_icon=r"Icons\send.png"
+textpath=r"FAQ.txt"
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.faq_data=load_FAQ(filepath=textpath)
         self.setMinimumSize(800, 500)
         self.setWindowTitle("ChatBot")
         self.UI()
@@ -69,8 +73,20 @@ class MainWindow(QMainWindow):
         main_layout.addStretch() 
         main_layout.addWidget(form_wgt)
         
+        self.send.clicked.connect(self.SendSection)
         central_wgt.setLayout(main_layout)
         self.setCentralWidget(central_wgt)
+    
+    def SendSection(self):
+        self.get_bot_response()
+        QMessageBox.information(self,"Notification","Text sended!!")
+    
+    def get_bot_response(self,msg):
+        msg=msg.lower().strip()
+        matches=difflib.get_close_matches(msg,self.faq_data.keys(),n=1,cutoff=0.6)
+        if matches:
+            return self.faq_data[matches[0]]
+        return QMessageBox.warning(self,"Error","I can't Answer Your Question!")
 
 
 def main():
