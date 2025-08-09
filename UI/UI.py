@@ -78,11 +78,19 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_wgt)
     
     def SendSection(self):
-        self.get_bot_response()
-        QMessageBox.information(self,"Notification","Text sended!!")
+        user_msg=self.text_box.toPlainText().strip()
+        if not user_msg:
+            QMessageBox.warning(self,"Warning","Please Enter a Message.")
+            return
+        
+        response= self.get_bot_response(user_msg)
+        if response:
+            QMessageBox.information(self,"Bot Answer:\n",response)
+        else:
+            QMessageBox.warning(self,"Warning","I can't Answer Your Question!")
     
     def get_bot_response(self,msg):
-        msg=msg.lower().strip()
+        msg=normalize(msg)
         matches=difflib.get_close_matches(msg,self.faq_data.keys(),n=1,cutoff=0.6)
         if matches:
             return self.faq_data[matches[0]]
