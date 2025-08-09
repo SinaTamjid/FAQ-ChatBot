@@ -1,0 +1,62 @@
+FAQ: General Information
+
+Q: What is this chatbot for?
+A: This chatbot is designed to answer common questions about our services, pricing, and support.
+
+Q: Who can use this chatbot?
+A: Anyone interested in learning more about our offerings or getting help with their account.
+
+Q: Is the chatbot available 24/7?
+A: Yes, the chatbot is available at all times to assist you.
+
+---
+
+FAQ: Services
+
+Q: What services do you offer?
+A: We offer web development, graphic design, and AI automation solutions.
+
+Q: Can I request a custom project?
+A: Yes, we specialize in custom solutions tailored to your needs. Just reach out through the contact form.
+
+Q: Do you offer free consultations?
+A: Yes, we provide a free 30-minute consultation for new clients.
+
+---
+
+FAQ: Pricing
+
+Q: How much do your services cost?
+A: Pricing varies by project scope. Basic packages start at $500.
+
+Q: Do you offer discounts?
+A: Yes, we offer seasonal discounts and bundle deals.
+
+Q: Is there a refund policy?
+A: Yes, we offer partial refunds within 14 days of project delivery if you're not satisfied.
+
+---
+
+FAQ: Support
+
+Q: How can I contact support?
+A: You can email us at support@example.com or use the live chat on our website.
+
+Q: What is the response time?
+A: We typically respond within 24 hours on business days.
+
+Q: Can I speak to a human agent?
+A: Yes, if your issue is complex, the chatbot will escalate it to a human agent.
+
+---
+
+FAQ: Technical Help
+
+Q: I forgot my password. What should I do?
+A: Click “Forgot Password” on the login page and follow the instructions.
+
+Q: The website is not loading. What can I do?
+A: Try clearing your browser cache or using a different browser. If the issue persists, contact support.
+
+Q: Can I update my account details?
+A: Yes, log in and go to the “Account Settings” section to update your information.
