@@ -8,9 +8,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from PyQt5.QtGui import QTextOption,QIcon,QFont
-from PyQt5.QtCore import Qt
 import difflib
 from Model.main import load_FAQ, normalize
+from PyQt5.QtCore import QTimer,Qt
 
 send_icon=r"Icons\send.png"
 textpath=r"FAQ.txt"
@@ -21,6 +21,9 @@ class MainWindow(QMainWindow):
         self.faq_data=load_FAQ(filepath=textpath)
         self.setMinimumSize(800, 500)
         self.setWindowTitle("ChatBot")
+        self.typing_timer = None
+        self.typing_index = 0
+        self.full_response = ""
         self.UI()
 
     def UI(self):
@@ -111,9 +114,25 @@ class MainWindow(QMainWindow):
             return
 
         response = self.get_bot_response(user_msg)
-        self.answer_box.setText(response)
+        self.full_response = response
+        self.typing_index = 0
+        self.answer_box.clear()
 
+        if self.typing_timer:
+            self.typing_timer.stop()
 
+        self.typing_timer = QTimer(self)
+        self.typing_timer.timeout.connect(self.animate_typing)
+        self.typing_timer.start(30) 
+
+    def animate_typing(self):
+        if self.typing_index < len(self.full_response):
+            current_text = self.answer_box.toPlainText()
+            next_char = self.full_response[self.typing_index]
+            self.answer_box.setText(current_text + next_char)
+            self.typing_index += 1
+        else:
+            self.typing_timer.stop()
     
     def get_bot_response(self, msg):
         msg = normalize(msg)
