@@ -8,9 +8,9 @@ def load_FAQ(filepath):
                        for line in f:
                               line=line.strip()
                               if line.startswith("Q:"):
-                                       current_question=line[2:].strip.lower()
+                                       current_question=line[2:].strip().lower()
                               elif line.startswith("A:") and current_question:
-                                      answer=line[2:].strip
+                                      answer=line[2:].strip()
                                       faq_dict[current_question]=answer
                                       current_question=None
                return faq_dict

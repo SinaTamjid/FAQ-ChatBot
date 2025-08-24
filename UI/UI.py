@@ -3,11 +3,14 @@ from PyQt5.QtWidgets import (
     QAction, QHBoxLayout, QVBoxLayout,QWidget,QSizePolicy,
     QSpacerItem,QTextEdit
 )
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from PyQt5.QtGui import QTextOption,QIcon,QFont
 from PyQt5.QtCore import Qt
-import sys
 import difflib
-from Model.main import load_FAQ,normalize
+from Model.main import load_FAQ, normalize
 
 send_icon=r"Icons\send.png"
 textpath=r"FAQ.txt"
@@ -67,6 +70,30 @@ class MainWindow(QMainWindow):
         self.send.setIcon(QIcon(send_icon))
         self.send.setIconSize(self.send.size())
         self.send.setStyleSheet("border: none;") 
+       
+       # Response display widget
+        self.answer_box = QTextEdit()
+        self.answer_box.setReadOnly(True)
+        self.answer_box.setFixedHeight(120)
+        self.answer_box.setStyleSheet("""
+            QTextEdit {
+                border: 2px solid #888;
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 15px;
+                background-color: #e6e6fa;
+                color: #2c3e50;
+            }
+        """)
+        self.answer_box.setPlaceholderText("Bot response will appear here...")
+
+        answer_wgt = QWidget()
+        answer_layout = QVBoxLayout(answer_wgt)
+        answer_layout.setContentsMargins(4, 4, 4, 4)
+        answer_layout.setSpacing(3)
+        answer_layout.addWidget(self.answer_box)
+
+        main_layout.addWidget(answer_wgt)
 
         form_layout.addWidget(self.text_box)
         form_layout.addWidget(self.send)
@@ -78,23 +105,22 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_wgt)
     
     def SendSection(self):
-        user_msg=self.text_box.toPlainText().strip()
+        user_msg = self.text_box.toPlainText().strip()
         if not user_msg:
-            QMessageBox.warning(self,"Warning","Please Enter a Message.")
+            QMessageBox.warning(self, "Warning", "Please enter a message.")
             return
-        
-        response= self.get_bot_response(user_msg)
-        if response:
-            QMessageBox.information(self,"Bot Answer:\n",response)
-        else:
-            QMessageBox.warning(self,"Warning","I can't Answer Your Question!")
+
+        response = self.get_bot_response(user_msg)
+        self.answer_box.setText(response)
+
+
     
-    def get_bot_response(self,msg):
-        msg=normalize(msg)
-        matches=difflib.get_close_matches(msg,self.faq_data.keys(),n=1,cutoff=0.6)
+    def get_bot_response(self, msg):
+        msg = normalize(msg)
+        matches = difflib.get_close_matches(msg, self.faq_data.keys(), n=1, cutoff=0.6)
         if matches:
             return self.faq_data[matches[0]]
-        return QMessageBox.warning(self,"Error","I can't Answer Your Question!")
+        return "I can't answer your question."
 
 
 def main():
